@@ -34,8 +34,8 @@ public class UserController
 		System.out.println(user.toString());
 		if(userService.userExists(user.getEmail()))
 		{
-			// returns not accepted if user already exists
-			return new ResponseEntity<User>(HttpStatus.NOT_ACCEPTABLE);
+			// returns a Conflict if user already exists
+			return new ResponseEntity<User>(HttpStatus.CONFLICT);
 		}
 		else
 		{
@@ -43,8 +43,8 @@ public class UserController
 			System.out.println(user.toString());
 			// Creating user from JSON body
 			userService.addUser(user);
-			// returns accepted
-			return new ResponseEntity<User>(HttpStatus.ACCEPTED);
+			// returns Created
+			return new ResponseEntity<User>(HttpStatus.CREATED);
 		}
 		
 	}
