@@ -1,6 +1,7 @@
 package com.teamthree.dollarsbank.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,10 @@ public class UserServiceImpl implements UserService
 		private UserRepo userRepo;
 		
 		@Override
-		public void findUserById(int id)
+		public Optional<User> findUserById(int id)
 		{
 			
-			
-			// TODO Auto-generated method stub
+			return  userRepo.findById(id);
 			
 		}
 
@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService
 		public void addUser(User user)
 		{
 			userRepo.save(user);
-			// TODO Auto-generated method stub
 			
 		}
 
@@ -45,13 +44,11 @@ public class UserServiceImpl implements UserService
 					return true;
 				}
 			}
-			
-			// TODO Auto-generated method stub
 			return false;
 		}
 
 		@Override
-		public User findUserByName(String email)
+		public User findUserByEmail(String email)
 		{
 		
 			return userRepo.findByEmail(email);
@@ -60,8 +57,14 @@ public class UserServiceImpl implements UserService
 		@Override
 		public List<User> findAll()
 		{
-			// TODO Auto-generated method stub
 			return (List<User>) userRepo.findAll();
+		}
+
+		@Override
+		public void delete(int id)
+		{
+			userRepo.deleteById(id);
+			
 		}
 
 	
