@@ -1,9 +1,9 @@
-package com.teamthree.dollarsbank.service;
+package com.teamthree.dollarsbank.dollarsbankteamapplication.service;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.teamthree.dollarsbank.model.User;
+import com.teamthree.dollarsbank.dollarsbankteamapplication.model.User;
 
 public interface UserService
 {

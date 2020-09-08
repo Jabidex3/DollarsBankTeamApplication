@@ -1,7 +1,8 @@
-package com.teamthree.dollarsbank.controller;
+package com.teamthree.dollarsbank.dollarsbankteamapplication.controller;
 
 import java.net.http.HttpResponse;
 
+import javax.servlet.http.Cookie;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +16,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.teamthree.dollarsbank.model.User;
-import com.teamthree.dollarsbank.service.UserService;
+import com.teamthree.dollarsbank.dollarsbankteamapplication.model.User;
+import com.teamthree.dollarsbank.dollarsbankteamapplication.service.UserService;
 
 import net.minidev.json.JSONObject;
 
 // Allows http requests from other servers
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Controller
+@RestController
 public class UserController
 {
 	
@@ -31,7 +34,7 @@ public class UserController
 	UserService userService;
 	
 	
-	@ResponseBody
+	//@ResponseBody
 	@PostMapping("/registerUser")
 	public ResponseEntity<User> createUser(@Valid @RequestBody User user)
 	{
@@ -54,10 +57,11 @@ public class UserController
 		
 	}
 	
-	@ResponseBody
+	//@ResponseBody
 	@GetMapping("/loginUser/{email}/{password}")
 	public ResponseEntity<User> loginUser(@Valid @PathVariable String email,@Valid @PathVariable String password)
 	{
+		
 		// TODO:: setup httpSession for user when logged in
 		// Currently set to take in email and password in the path, maybe set to RequestBody later if Front end wants
 		//HttpHeaders responseHeaders = new HttpHeaders();
@@ -75,7 +79,7 @@ public class UserController
 		
 	}
 	
-	@ResponseBody
+	//@ResponseBody
 	@PostMapping("/editUser")
 	public ResponseEntity<User> editUser(@Valid @RequestBody User user)
 	{
@@ -90,7 +94,7 @@ public class UserController
 		
 	}
 	
-	@ResponseBody
+	//@ResponseBody
 	@PostMapping("/deleteUser")
 	public ResponseEntity<User> deleteUser(@Valid @RequestBody User user)
 	{

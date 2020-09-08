@@ -1,4 +1,4 @@
-package com.teamthree.dollarsbank.model;
+package com.teamthree.dollarsbank.dollarsbankteamapplication.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
