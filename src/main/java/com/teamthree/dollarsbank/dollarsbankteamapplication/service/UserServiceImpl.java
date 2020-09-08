@@ -1,4 +1,4 @@
-package com.teamthree.dollarsbank.service;
+package com.teamthree.dollarsbank.dollarsbankteamapplication.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,9 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import com.teamthree.dollarsbank.model.User;
-import com.teamthree.dollarsbank.repo.UserRepo;
+import com.teamthree.dollarsbank.dollarsbankteamapplication.model.User;
+import com.teamthree.dollarsbank.dollarsbankteamapplication.repository.UserRepo;
 
 @Service
 public class UserServiceImpl implements UserService
