@@ -52,9 +52,27 @@ public class AccountController {
 //	}
 	
 	@GetMapping("account")
-	public List<Account> getAccountsofSpecificUser(@RequestBody Account acc){
-		//W.I.P.
-		return this.accService.findAll();
+	public ResponseEntity<List<Account>> getAccountsofSpecificUser(@RequestBody Account acc){
+		ArrayList<Account>allAccounts = (ArrayList<Account>) accService.findAll();
+		ArrayList<Account>specificUserAccounts = new ArrayList<Account>();
+		boolean userHasAcc = false;
+		for(int i=0;i<allAccounts.size();i++) {
+			if(allAccounts.get(i).getUser_id()==acc.getUser_id()) {
+				userHasAcc=true;
+				specificUserAccounts.add(allAccounts.get(i));
+			}
+		}
+//		for(int j=0;j<specificUserAccounts.size();j++) {
+//			System.out.println(specificUserAccounts.get(j));
+//		}
+		if(userHasAcc) {
+			return new ResponseEntity<List<Account>>(specificUserAccounts,HttpStatus.ACCEPTED);
+		}
+		else {
+			return new ResponseEntity<List<Account>>(HttpStatus.NOT_FOUND);
+		}
+	//	return specificUserAccounts;
+		
 	}
 	
 	@PostMapping("account")
