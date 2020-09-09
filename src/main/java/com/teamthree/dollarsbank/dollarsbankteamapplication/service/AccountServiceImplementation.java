@@ -27,12 +27,12 @@ public class AccountServiceImplementation implements AccountService{
 				break;
 			}
 		}
-		acc.setAccount_id(accNum);
-		if(acc.getAccount_type()==null) {//default checking account if account_type field not provided
-			acc.setAccount_type("CHECKING");
+		acc.setAccountId(accNum);
+		if(acc.getAccountType()==null) {//default checking account if account_type field not provided
+			acc.setAccountType("CHECKING");
 		}
 		else {
-			acc.setAccount_type(acc.getAccount_type().toUpperCase());
+			acc.setAccountType(acc.getAccountType().toUpperCase());
 		}
 		
 		
@@ -48,7 +48,7 @@ public class AccountServiceImplementation implements AccountService{
 	public boolean accIdExists(int x) {
 		List<Account> accs = accRepo.findAll();
 		for(Account a : accs) {
-			if(a.getAccount_id()==x) {
+			if(a.getAccountId()==x) {
 				return true;
 			}
 		}

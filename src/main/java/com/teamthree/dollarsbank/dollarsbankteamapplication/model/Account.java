@@ -11,45 +11,45 @@ import javax.persistence.Table;
 public class Account {
 	@Id
 	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int account_id;
+	private int accountId;
 	
-	private int user_id;
-	private String account_type;
+	private int userId;
+	private String accountType;
 	private double balance;
 	
 	public Account() {
 		super();
 	}
 
-	public Account(int user_id, String account_type, double balance) {
+	public Account(int userId, String accountType, double balance) {
 		super();
-		this.user_id = user_id;
-		this.account_type = account_type;
+		this.userId = userId;
+		this.accountType = accountType;
 		this.balance = balance;
 	}
 
-	public int getAccount_id() {
-		return account_id;
+	public int getAccountId() {
+		return accountId;
 	}
 
-	public void setAccount_id(int account_id) {
-		this.account_id = account_id;
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
 	}
 
-	public int getUser_id() {
-		return user_id;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
-	public String getAccount_type() {
-		return account_type;
+	public String getAccountType() {
+		return accountType;
 	}
 
-	public void setAccount_type(String account_type) {
-		this.account_type = account_type;
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
 
 	public double getBalance() {
@@ -62,8 +62,11 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [account_id=" + account_id + ", user_id=" + user_id + ", account_type=" + account_type
-				+ ", balance=" + balance + "]";
+		return "Account [accountId=" + accountId + ", userId=" + userId + ", accountType=" + accountType + ", balance="
+				+ balance + "]";
 	}
+
+	
+	
 	
 }
