@@ -57,7 +57,7 @@ public class AccountController {
 		ArrayList<Account>specificUserAccounts = new ArrayList<Account>();
 		boolean userHasAcc = false;
 		for(int i=0;i<allAccounts.size();i++) {
-			if(allAccounts.get(i).getUser_id()==acc.getUser_id()) {
+			if(allAccounts.get(i).getUserId()==acc.getUserId()) {
 				userHasAcc=true;
 				specificUserAccounts.add(allAccounts.get(i));
 			}
@@ -77,7 +77,7 @@ public class AccountController {
 	
 	@PostMapping("account")
 	public ResponseEntity<Account> createAcc(@RequestBody Account acc) {
-		if(acc.getUser_id()==0) {//no value provided from front end
+		if(acc.getUserId()==0) {//no value provided from front end
 			return new ResponseEntity<Account>(HttpStatus.BAD_REQUEST);
 		}
 		else {
@@ -89,15 +89,15 @@ public class AccountController {
 	
 	//deletes all accounts associated with a user id, or specific account associated with an acc id
 	@DeleteMapping("account/{user_id_or_acc_id}")
-	public  ResponseEntity<Account> deleteAcc(@PathVariable int user_id_or_acc_id) { 
-		//System.out.println(user_id_or_acc_id);
+	public ResponseEntity<Account> deleteAcc(@PathVariable int user_id_or_acc_id) { 
+		System.out.println(user_id_or_acc_id);
 		ArrayList<Account>allAccounts = (ArrayList<Account>) accService.findAll();
 		boolean validId=false;
 		for(int i=0;i<allAccounts.size();i++) {
-			if(allAccounts.get(i).getAccount_id()==user_id_or_acc_id) {
+			if(allAccounts.get(i).getAccountId()==user_id_or_acc_id) {
 				validId = true;
 			}
-			else if(allAccounts.get(i).getUser_id()==user_id_or_acc_id) {
+			else if(allAccounts.get(i).getUserId()==user_id_or_acc_id) {
 				validId = true;
 			}
 		}
@@ -108,12 +108,12 @@ public class AccountController {
 		PreparedStatement ps;
 		try {
 			if(user_id_or_acc_id>=100000000) {//delete specific account
-				ps = conn.prepareStatement("delete from accounts where account_id="+user_id_or_acc_id);
+				ps = conn.prepareStatement("delete from accounts where accountId="+user_id_or_acc_id);
 				ps.executeUpdate();
 				return new ResponseEntity<Account>(HttpStatus.ACCEPTED);
 			}
 			else {//delete all account records of matching user_id
-				ps = conn.prepareStatement("delete from accounts where user_id="+user_id_or_acc_id);
+				ps = conn.prepareStatement("delete from accounts where userId="+user_id_or_acc_id);
 				ps.executeUpdate();
 				return new ResponseEntity<Account>(HttpStatus.ACCEPTED);
 			}
