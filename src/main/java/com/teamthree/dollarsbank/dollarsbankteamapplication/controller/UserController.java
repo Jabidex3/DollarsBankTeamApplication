@@ -3,6 +3,7 @@ package com.teamthree.dollarsbank.dollarsbankteamapplication.controller;
 import java.net.http.HttpResponse;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,9 +62,10 @@ public class UserController
 	
 	//@ResponseBody
 	@PostMapping("/login")
-	public ResponseEntity<User> loginUser(@Valid @RequestBody User user)
+	public ResponseEntity<User> loginUser(@Valid @RequestBody User user, HttpSession session)
 	{
 		
+		System.out.println(session.getId());
 		// TODO:: setup httpSession for user when logged in
 		// Currently set to take in email and password in the path, maybe set to RequestBody later if Front end wants
 		//HttpHeaders responseHeaders = new HttpHeaders();
@@ -74,8 +76,10 @@ public class UserController
 		}
 		else if (user2.getPassword().equals(user.getPassword()))
 		{
+			session.setAttribute("email", user2.getEmail());
+			session.setAttribute("password", user2.getPassword());
 			// returns user and accepted in the http body response
-			return new ResponseEntity<User>(user2,HttpStatus.ACCEPTED);
+			return new ResponseEntity<User>(HttpStatus.ACCEPTED);
 		}
 		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		
@@ -83,33 +87,42 @@ public class UserController
 	
 	//@ResponseBody
 	@PutMapping("/user")
-	public ResponseEntity<User> editUser(@Valid @RequestBody User user)
+	public ResponseEntity<User> editUser(@Valid @RequestBody User user, HttpSession session)
 	{
+		if(session.getAttribute("email") == null)
+		{
+			return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+			
+		}
+		else
+		{
+			User userFinal = userService.findUserByEmail(session.getAttribute("email").toString());
+			userFinal.setFirstName(user.getFirstName());
+			userFinal.setLastName(user.getLastName());
+			userFinal.setPassword(user.getPassword());
+			userService.addUser(userFinal);
+			return new ResponseEntity<User>(userFinal,HttpStatus.ACCEPTED);
+		}
 		// Takes user JSON from front-end and replaces fields in User from database
 		// TODO:: Security, maybe sessions or something to prevent people from editing everyones account
-		User userFinal = userService.findUserByEmail(user.getEmail());
-		userFinal.setFirstName(user.getFirstName());
-		userFinal.setLastName(user.getLastName());
-		userFinal.setPassword(user.getPassword());
-		userService.addUser(userFinal);
-		return new ResponseEntity<User>(userFinal,HttpStatus.ACCEPTED);
+	
 		
 	}
 	
 	//@ResponseBody
 	@DeleteMapping("/user")
-	public ResponseEntity<User> deleteUser(@Valid @RequestBody User user)
+	public ResponseEntity<User> deleteUser(HttpSession session)
 	{
 		// deletes User from database
 		// TODO:: Security, maybe sessions or something to prevent people from editing everyones account
-		
-		
-		if(userService.findUserByEmail(user.getEmail())== null)
+		if(session.getAttribute("email") == null)
 		{
 			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+			
 		}
-		else 
+		else
 		{
+			User user = userService.findUserByEmail(session.getAttribute("email").toString());
 			userService.delete(user.getUserId());
 			return new ResponseEntity<User>(HttpStatus.ACCEPTED);
 		}
@@ -117,22 +130,35 @@ public class UserController
 		
 	}
 	@GetMapping("/user")
-	public ResponseEntity<User> getUser(@Valid @RequestBody User user)
+	public ResponseEntity<User> getUser(HttpSession session)
 	{
+		User userData = null;
 		// deletes User from database
 		// TODO:: Security, maybe sessions or something to prevent people from editing everyones account
-		User userData = userService.findUserByEmail(user.getEmail());
-		
-		if(userService.findUserByEmail(user.getEmail())== null)
+		if(session.getAttribute("email") != null)
 		{
-			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+			userData = userService.findUserByEmail(session.getAttribute("email").toString());
+			return new ResponseEntity<User>(userData,HttpStatus.FOUND);
 		}
 		else 
 		{
-			
-			return new ResponseEntity<User>(userData,HttpStatus.FOUND);
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		}
+	}
+	@PostMapping("/logout")
+	public ResponseEntity<User> logout(HttpSession session)
+	{
 		
-		
+		// deletes User from database
+		// TODO:: Security, maybe sessions or something to prevent people from editing everyones account
+		if(session.getAttribute("email") != null)
+		{
+			session.invalidate();
+			return new ResponseEntity<User>(HttpStatus.ACCEPTED);
+		}
+		else 
+		{
+			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+		}
 	}
 }
