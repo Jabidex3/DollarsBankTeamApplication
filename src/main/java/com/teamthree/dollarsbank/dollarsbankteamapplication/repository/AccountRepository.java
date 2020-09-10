@@ -8,5 +8,5 @@ import com.teamthree.dollarsbank.dollarsbankteamapplication.model.Account;
 
 
 public interface AccountRepository extends JpaRepository<Account, Integer> {
-
+	public Account findByAccountId(int accountId);
 }

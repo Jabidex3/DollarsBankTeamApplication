@@ -11,4 +11,6 @@ public interface AccountService {
 	public void addAccount(Account acc);
 	public List<Account> findAll();
 	public boolean accIdExists(int x);
+	public Account findById(int accountId);
+	public void save(Account account);
 }

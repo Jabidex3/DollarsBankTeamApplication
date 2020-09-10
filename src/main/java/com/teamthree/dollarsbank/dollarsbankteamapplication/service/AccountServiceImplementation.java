@@ -54,6 +54,20 @@ public class AccountServiceImplementation implements AccountService{
 		}
 		return false;
 	}
+
+	@Override
+	public Account findById(int accountId)
+	{
+		// TODO Auto-generated method stub
+		return accRepo.findByAccountId(accountId);
+	}
+
+	@Override
+	public void save(Account account)
+	{
+		// TODO Auto-generated method stub
+		accRepo.save(account);
+	}
 	
 	
 }
