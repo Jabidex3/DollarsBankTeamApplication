@@ -13,4 +13,5 @@ public interface AccountService {
 	public boolean accIdExists(int x);
 	public Account findById(int accountId);
 	public void save(Account account);
+	public void deleteAllByUserId(int accountId);
 }

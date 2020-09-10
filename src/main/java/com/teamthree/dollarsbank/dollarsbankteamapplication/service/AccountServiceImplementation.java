@@ -68,6 +68,14 @@ public class AccountServiceImplementation implements AccountService{
 		// TODO Auto-generated method stub
 		accRepo.save(account);
 	}
+
+	@Override
+	public void deleteAllByUserId(int userId)
+	{
+		// TODO Auto-generated method stub
+		accRepo.deleteAll(accRepo.findAllByUserId(userId));
+		
+	}
 	
 	
 }

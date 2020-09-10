@@ -22,20 +22,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teamthree.dollarsbank.dollarsbankteamapplication.model.User;
+import com.teamthree.dollarsbank.dollarsbankteamapplication.service.AccountService;
+import com.teamthree.dollarsbank.dollarsbankteamapplication.service.TransactionService;
 import com.teamthree.dollarsbank.dollarsbankteamapplication.service.UserService;
 
 import net.minidev.json.JSONObject;
 
 // Allows http requests from other servers
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@Controller
 @RestController
 public class UserController
 {
 	
 	@Autowired
 	UserService userService;
-	
+	@Autowired
+	AccountService accountService;
+	@Autowired
+	TransactionService transService;
 	
 	//@ResponseBody
 	@PostMapping("/register")
@@ -123,6 +127,9 @@ public class UserController
 		else
 		{
 			User user = userService.findUserByEmail(session.getAttribute("email").toString());
+			int id = user.getUserId();
+			transService.deleteAllByUserId(id);
+			accountService.deleteAllByUserId(id);
 			userService.delete(user.getUserId());
 			return new ResponseEntity<User>(HttpStatus.ACCEPTED);
 		}
@@ -161,4 +168,5 @@ public class UserController
 			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
 }
