@@ -10,4 +10,6 @@ import com.teamthree.dollarsbank.dollarsbankteamapplication.model.Transaction;
 public interface TransactionService {
 	public void addTransaction(Transaction t);
 	public List<Transaction> findAll();
+	public void deleteAllByUserId(int userId);
+	
 }

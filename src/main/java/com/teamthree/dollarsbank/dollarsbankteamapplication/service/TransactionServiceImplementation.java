@@ -24,4 +24,11 @@ public class TransactionServiceImplementation implements TransactionService {
 		return tranRepo.findAll();
 	}
 
+	@Override
+	public void deleteAllByUserId(int userId)
+	{
+		tranRepo.deleteAll(tranRepo.findAllByUserId(userId));
+		
+	}
+
 }
