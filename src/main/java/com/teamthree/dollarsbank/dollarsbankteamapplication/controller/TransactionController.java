@@ -129,6 +129,7 @@ public class TransactionController {
         	else
         	{
         		account.setBalance(account.getBalance()+t.getAmount());
+        		account.setLastUpdated(ldt.now());
         		accountService.save(account);
         		transService.addTransaction(t);
         		return new ResponseEntity<Transaction>(HttpStatus.ACCEPTED);
@@ -160,6 +161,7 @@ public class TransactionController {
 				return new ResponseEntity<Transaction>(HttpStatus.BAD_REQUEST);
 			}
 			else {
+				user.setLastUpdated(ldt.now());
 				transService.addTransaction(t);
 				if(user.getUserId()!=recipient.getUserId()) {
 					Transaction r = new Transaction();
