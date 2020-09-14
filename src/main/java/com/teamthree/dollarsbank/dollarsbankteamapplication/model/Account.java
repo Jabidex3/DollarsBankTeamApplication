@@ -1,5 +1,7 @@
 package com.teamthree.dollarsbank.dollarsbankteamapplication.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +18,8 @@ public class Account {
 	private int userId;
 	private String accountType;
 	private double balance;
-	
+	private LocalDateTime lastUpdated = LocalDateTime.now();
+	private LocalDateTime createdAt = LocalDateTime.now();
 	public Account() {
 		super();
 	}

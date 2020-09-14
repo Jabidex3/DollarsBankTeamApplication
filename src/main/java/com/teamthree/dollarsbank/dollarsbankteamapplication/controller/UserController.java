@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teamthree.dollarsbank.dollarsbankteamapplication.model.User;
 import com.teamthree.dollarsbank.dollarsbankteamapplication.service.AccountService;
 import com.teamthree.dollarsbank.dollarsbankteamapplication.service.TransactionService;
@@ -82,8 +84,16 @@ public class UserController
 		{
 			session.setAttribute("email", user2.getEmail());
 			session.setAttribute("password", user2.getPassword());
+			User userReturn = new User();
+			userReturn.setEmail(user2.getEmail());
+			userReturn.setFirstName(user2.getFirstName());
+			userReturn.setLastName(user2.getLastName());
+			userReturn.setCreatedAt(user2.getCreatedAt());
+			userReturn.setUpdatedAt(user2.getUpdatedAt());
+			userReturn.setUserId(user2.getUserId());
+			userReturn.setPassword("");
 			// returns user and accepted in the http body response
-			return new ResponseEntity<User>(HttpStatus.ACCEPTED);
+			return new ResponseEntity<User>(userReturn, HttpStatus.ACCEPTED);
 		}
 		return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 		
@@ -100,12 +110,12 @@ public class UserController
 		}
 		else
 		{
-			User userFinal = userService.findUserByEmail(session.getAttribute("email").toString());
-			userFinal.setFirstName(user.getFirstName());
-			userFinal.setLastName(user.getLastName());
-			userFinal.setPassword(user.getPassword());
-			userService.addUser(userFinal);
-			return new ResponseEntity<User>(userFinal,HttpStatus.ACCEPTED);
+			User userReturn = userService.findUserByEmail(session.getAttribute("email").toString());
+			userReturn.setFirstName(user.getFirstName());
+			userReturn.setLastName(user.getLastName());
+			userReturn.setPassword(user.getPassword());
+			userService.addUser(userReturn);
+			return new ResponseEntity<User>(userReturn,HttpStatus.ACCEPTED);
 		}
 		// Takes user JSON from front-end and replaces fields in User from database
 		// TODO:: Security, maybe sessions or something to prevent people from editing everyones account
@@ -145,7 +155,15 @@ public class UserController
 		if(session.getAttribute("email") != null)
 		{
 			userData = userService.findUserByEmail(session.getAttribute("email").toString());
-			return new ResponseEntity<User>(userData,HttpStatus.FOUND);
+			User userReturn = new User();
+			userReturn.setEmail(userData.getEmail());
+			userReturn.setFirstName(userData.getFirstName());
+			userReturn.setLastName(userData.getLastName());
+			userReturn.setCreatedAt(userData.getCreatedAt());
+			userReturn.setUpdatedAt(userData.getUpdatedAt());
+			userReturn.setUserId(userData.getUserId());
+			userReturn.setPassword("");
+			return new ResponseEntity<User>(userReturn,HttpStatus.FOUND);
 		}
 		else 
 		{
@@ -156,7 +174,7 @@ public class UserController
 	public ResponseEntity<User> logout(HttpSession session)
 	{
 		
-		// deletes User from database
+		
 		// TODO:: Security, maybe sessions or something to prevent people from editing everyones account
 		if(session.getAttribute("email") != null)
 		{

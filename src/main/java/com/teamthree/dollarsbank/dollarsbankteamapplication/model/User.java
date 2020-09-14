@@ -1,5 +1,7 @@
 package com.teamthree.dollarsbank.dollarsbankteamapplication.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,6 +25,30 @@ private String lastName;
 @Column(unique = true)
 private String email;
 private String password;
+private LocalDateTime createdAt = LocalDateTime.now();
+private LocalDateTime updatedAt = LocalDateTime.now();;
+
+
+public LocalDateTime getCreatedAt()
+{
+	return createdAt;
+}
+
+public void setCreatedAt(LocalDateTime createdAt)
+{
+	this.createdAt = createdAt;
+}
+
+public LocalDateTime getUpdatedAt()
+{
+	return updatedAt;
+}
+
+public void setUpdatedAt(LocalDateTime updatedAt)
+{
+	this.updatedAt = updatedAt;
+}
+
 // auto wired variables in beans allowing us to inject beans with values
 @Autowired
 public User()
@@ -30,6 +56,7 @@ public User()
 	super();
 	// TODO Auto-generated constructor stub
 }
+
 @Autowired
 public User(String firstName, String lastName, String email, String password)
 {

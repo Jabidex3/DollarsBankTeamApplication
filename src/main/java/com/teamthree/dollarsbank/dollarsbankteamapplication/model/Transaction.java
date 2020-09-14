@@ -1,5 +1,7 @@
 package com.teamthree.dollarsbank.dollarsbankteamapplication.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,6 +19,7 @@ public class Transaction {
 	private int userId;
 	private String action;
 	private double amount;
+	private LocalDateTime createdAt = LocalDateTime.now();
 	
 	public Transaction() {
 		super();
@@ -29,6 +32,18 @@ public class Transaction {
 		this.userId = userId;
 		this.action = action;
 		this.amount = amount;
+	}
+
+	
+	
+	public LocalDateTime getCreatedAt()
+	{
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt)
+	{
+		this.createdAt = createdAt;
 	}
 
 	public int getTransactionId() {

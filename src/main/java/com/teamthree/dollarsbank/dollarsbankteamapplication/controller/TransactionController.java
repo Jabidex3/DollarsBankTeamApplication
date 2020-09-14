@@ -54,7 +54,7 @@ public class TransactionController {
 	public ResponseEntity<List<Transaction>> getRecentTransactions(@RequestBody Account a){
 		//System.out.println(a.getAccountId());
 		Account account = accountService.findById(a.getAccountId());
-		//System.out.println(account);
+		System.out.println(account);
 		int accNum = a.getAccountId();
 		List<Transaction> allTransactions = transService.findAll();
 		List<Transaction> specificTransactions = new ArrayList<Transaction>();
