@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +49,38 @@ public class TransactionController {
 	AccountService accountService;
 	@Autowired
 	TransactionService transService; 
+	
+	@GetMapping("transaction")
+	public ResponseEntity<List<Transaction>> getRecentTransactions(@RequestBody Account a){
+		//System.out.println(a.getAccountId());
+		Account account = accountService.findById(a.getAccountId());
+		//System.out.println(account);
+		int accNum = a.getAccountId();
+		List<Transaction> allTransactions = transService.findAll();
+		List<Transaction> specificTransactions = new ArrayList<Transaction>();
+		for(int i=0;i<allTransactions.size();i++) {
+			if(allTransactions.get(i).getFromAccountId()==a.getAccountId()) {
+				if(allTransactions.get(i).getAction().toUpperCase().equals("WITHDRAW")||allTransactions.get(i).getAction().toUpperCase().equals("DEPOSIT")) {
+					specificTransactions.add(allTransactions.get(i));
+				}
+				else if(allTransactions.get(i).getAction().toUpperCase().equals("MONEY TRANSFER")) {
+					if(allTransactions.get(i).getUserId()==account.getUserId()) {
+						specificTransactions.add(allTransactions.get(i));
+					}
+				}
+				
+			}
+			
+			if(allTransactions.get(i).getToAccountId()==a.getAccountId()) {
+				if(allTransactions.get(i).getUserId()==account.getUserId()) {
+					specificTransactions.add(allTransactions.get(i));
+				}
+			}
+			
+		}
+		
+		return new ResponseEntity<List<Transaction>>(specificTransactions,HttpStatus.ACCEPTED);
+	}
 	
 	@PostMapping("transaction")
 	public ResponseEntity<Transaction> createTransaction(@Valid @RequestBody Transaction t){
@@ -124,7 +158,7 @@ public class TransactionController {
 			}
 			else {
 				transService.addTransaction(t);
-//				if(user.getUserId()!=recipient.getUserId()) {
+				if(user.getUserId()!=recipient.getUserId()) {
 					Transaction r = new Transaction();
 					r.setUserId(recipient.getUserId());
 					r.setAction(t.getAction());
@@ -132,7 +166,7 @@ public class TransactionController {
 					r.setFromAccountId(t.getFromAccountId());
 					r.setToAccountId(t.getToAccountId());
 					transService.addTransaction(r);
-//				}
+				}
 				
 				double finalSenderBalance = user.getBalance()-t.getAmount();
 				double finalRecipientBalance = recipient.getBalance()+t.getAmount();
