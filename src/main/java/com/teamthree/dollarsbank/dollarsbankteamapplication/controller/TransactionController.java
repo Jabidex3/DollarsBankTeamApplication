@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ import com.teamthree.dollarsbank.dollarsbankteamapplication.service.TransactionS
 public class TransactionController {
 	private Statement st;
 	private Connection conn;
+	private LocalDateTime ldt;
 	public TransactionController() {
 		String a ="jdbc:mysql://localhost:3306/teambankdatabase";
 		String b ="root";
@@ -85,6 +87,7 @@ public class TransactionController {
 	@PostMapping("transaction")
 	public ResponseEntity<Transaction> createTransaction(@Valid @RequestBody Transaction t){
 		Account account = accountService.findById(t.getFromAccountId());
+		account.setLastUpdated(ldt.now());
 		if(t.getAction().toUpperCase().equals("WITHDRAW")) {
 			t.setAction(t.getAction().toUpperCase());
 			if(t.getAmount()<=0) {

@@ -31,6 +31,26 @@ public class Account {
 		this.balance = balance;
 	}
 
+	public LocalDateTime getLastUpdated()
+	{
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(LocalDateTime lastUpdated)
+	{
+		this.lastUpdated = lastUpdated;
+	}
+
+	public LocalDateTime getCreatedAt()
+	{
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt)
+	{
+		this.createdAt = createdAt;
+	}
+
 	public int getAccountId() {
 		return accountId;
 	}

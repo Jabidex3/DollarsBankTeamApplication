@@ -1,6 +1,7 @@
 package com.teamthree.dollarsbank.dollarsbankteamapplication.controller;
 
 import java.net.http.HttpResponse;
+import java.time.LocalDateTime;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
@@ -35,7 +36,7 @@ import net.minidev.json.JSONObject;
 @RestController
 public class UserController
 {
-	
+	private LocalDateTime ldt;
 	@Autowired
 	UserService userService;
 	@Autowired
@@ -114,6 +115,7 @@ public class UserController
 			userReturn.setFirstName(user.getFirstName());
 			userReturn.setLastName(user.getLastName());
 			userReturn.setPassword(user.getPassword());
+			userReturn.setUpdatedAt(ldt.now());
 			userService.addUser(userReturn);
 			return new ResponseEntity<User>(userReturn,HttpStatus.ACCEPTED);
 		}
