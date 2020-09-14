@@ -46,7 +46,7 @@ public class UserController
 	
 	//@ResponseBody
 	@PostMapping("/register")
-	public ResponseEntity<User> createUser(@Valid @RequestBody User user)
+	public ResponseEntity<User> createUser(@Valid @RequestBody User user, HttpSession session)
 	{
 		
 		System.out.println(user.toString());
@@ -57,12 +57,21 @@ public class UserController
 		}
 		else
 		{
-			
+			session.setAttribute("email", user.getEmail());
+			session.setAttribute("password", user.getPassword());
 			System.out.println(user.toString());
 			// Adding user to database from RequestBody ( JSON body )
 			userService.addUser(user);
-			// returns Created
-			return new ResponseEntity<User>(HttpStatus.CREATED);
+			User userReturn = new User();
+			userReturn.setEmail(user.getEmail());
+			userReturn.setFirstName(user.getFirstName());
+			userReturn.setLastName(user.getLastName());
+			userReturn.setCreatedAt(user.getCreatedAt());
+			userReturn.setUpdatedAt(user.getUpdatedAt());
+			userReturn.setUserId(user.getUserId());
+			userReturn.setPassword("");
+			// returns Created & User
+			return new ResponseEntity<User>(userReturn,HttpStatus.CREATED);
 		}
 		
 	}
