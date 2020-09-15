@@ -111,11 +111,11 @@ public class TransactionController {
 						try {
 							ps=conn.prepareStatement(query);
 							ps.executeUpdate();
-							return new ResponseEntity<Transaction>(HttpStatus.ACCEPTED);
+							return new ResponseEntity<Transaction>(t, HttpStatus.ACCEPTED);
 						} catch (SQLException e) {
 							e.printStackTrace();
 						}
-						return new ResponseEntity<Transaction>(HttpStatus.ACCEPTED);
+						return new ResponseEntity<Transaction>(t, HttpStatus.ACCEPTED);
 					}
 				}
 			}
@@ -133,7 +133,7 @@ public class TransactionController {
         		account.setLastUpdated(ldt.now());
         		accountService.save(account);
         		transService.addTransaction(t);
-        		return new ResponseEntity<Transaction>(HttpStatus.ACCEPTED);
+        		return new ResponseEntity<Transaction>(t, HttpStatus.ACCEPTED);
         	}
         	
         }
@@ -185,11 +185,11 @@ public class TransactionController {
 					ps.executeUpdate();
 					ps2=conn.prepareStatement(query2);
 					ps2.executeUpdate();
-					return new ResponseEntity<Transaction>(HttpStatus.ACCEPTED);
+					return new ResponseEntity<Transaction>(t, HttpStatus.ACCEPTED);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				return new ResponseEntity<Transaction>(HttpStatus.ACCEPTED);
+				return new ResponseEntity<Transaction>(t, HttpStatus.ACCEPTED);
 			}
 			
 			
