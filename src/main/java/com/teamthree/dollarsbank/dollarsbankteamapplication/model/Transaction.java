@@ -14,7 +14,7 @@ public class Transaction {
 	@GeneratedValue
 	private int transactionId;
 	
-	private int fromAccountId;
+	private int accountId;
 	private int toAccountId;
 	private int userId;
 	private String action;
@@ -25,9 +25,9 @@ public class Transaction {
 		super();
 	}
 
-	public Transaction(int fromAccountId, int toAccountId, int userId, String action, double amount) {
+	public Transaction(int accountId, int toAccountId, int userId, String action, double amount) {
 		super();
-		this.fromAccountId = fromAccountId;
+		this.accountId = accountId;
 		this.toAccountId = toAccountId;
 		this.userId = userId;
 		this.action = action;
@@ -54,12 +54,14 @@ public class Transaction {
 		this.transactionId = transactionId;
 	}
 
-	public int getFromAccountId() {
-		return fromAccountId;
+	
+
+	public int getAccountId() {
+		return accountId;
 	}
 
-	public void setFromAccountId(int fromAccountId) {
-		this.fromAccountId = fromAccountId;
+	public void setAccountId(int accountId) {
+		this.accountId = accountId;
 	}
 
 	public int getToAccountId() {
@@ -96,9 +98,12 @@ public class Transaction {
 
 	@Override
 	public String toString() {
-		return "Transaction [transactionId=" + transactionId + ", fromAccountId=" + fromAccountId + ", toAccountId="
-				+ toAccountId + ", userId=" + userId + ", action=" + action + ", amount=" + amount + "]";
+		return "Transaction [transactionId=" + transactionId + ", accountId=" + accountId + ", toAccountId="
+				+ toAccountId + ", userId=" + userId + ", action=" + action + ", amount=" + amount + ", createdAt="
+				+ createdAt + "]";
 	}
+
+	
 	
 	
 	

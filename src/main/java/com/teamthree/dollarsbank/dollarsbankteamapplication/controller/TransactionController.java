@@ -62,7 +62,7 @@ public class TransactionController {
 		List<Transaction> allTransactions = transService.findAll();
 		List<Transaction> specificTransactions = new ArrayList<Transaction>();
 		for(int i=0;i<allTransactions.size();i++) {
-			if(allTransactions.get(i).getFromAccountId()==accountId) {
+			if(allTransactions.get(i).getAccountId()==accountId) {
 				if(allTransactions.get(i).getAction().toUpperCase().equals("WITHDRAW")||allTransactions.get(i).getAction().toUpperCase().equals("DEPOSIT")) {
 					specificTransactions.add(allTransactions.get(i));
 				}
@@ -87,7 +87,7 @@ public class TransactionController {
 	
 	@PostMapping("transaction")
 	public ResponseEntity<Transaction> createTransaction(@Valid @RequestBody Transaction t){
-		Account account = accountService.findById(t.getFromAccountId());
+		Account account = accountService.findById(t.getAccountId());
 		account.setLastUpdated(ldt.now());
 		if(t.getAction().toUpperCase().equals("WITHDRAW")) {
 			t.setAction(t.getAction().toUpperCase());
@@ -97,7 +97,7 @@ public class TransactionController {
 			
 			ArrayList<Account>allAccounts = (ArrayList<Account>) accountService.findAll();			
 			for(int i=0;i<allAccounts.size();i++) {
-				if(allAccounts.get(i).getAccountId()==t.getFromAccountId()) {
+				if(allAccounts.get(i).getAccountId()==t.getAccountId()) {
 					if(allAccounts.get(i).getBalance()<t.getAmount()) {
 						return new ResponseEntity<Transaction>(HttpStatus.BAD_REQUEST);
 					}
@@ -146,7 +146,7 @@ public class TransactionController {
 			Account user = null;
 			Account recipient = null;
 			for(int i=0;i<allAccounts.size();i++) {
-				if(allAccounts.get(i).getAccountId()==t.getFromAccountId()) {
+				if(allAccounts.get(i).getAccountId()==t.getAccountId()) {
 					user = allAccounts.get(i);
 				}
 				else if(allAccounts.get(i).getAccountId()==t.getToAccountId()) {
@@ -169,7 +169,7 @@ public class TransactionController {
 					r.setUserId(recipient.getUserId());
 					r.setAction(t.getAction());
 					r.setAmount(t.getAmount());
-					r.setFromAccountId(t.getFromAccountId());
+					r.setAccountId(t.getAccountId());
 					r.setToAccountId(t.getToAccountId());
 					transService.addTransaction(r);
 				}
