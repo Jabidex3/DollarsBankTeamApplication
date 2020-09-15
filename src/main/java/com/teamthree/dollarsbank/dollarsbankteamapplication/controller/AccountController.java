@@ -79,6 +79,18 @@ public class AccountController {
 		
 	}
 	
+	@GetMapping("account/home/{accId}")
+	public ResponseEntity<Account> getAccByAccId(@Valid @PathVariable int accId) {
+		Account account = accService.findById(accId);
+		if(account ==null) {
+			return new ResponseEntity<Account>(HttpStatus.NOT_FOUND);
+		}
+		else {
+			return new ResponseEntity<Account>(account, HttpStatus.ACCEPTED);
+		}
+		
+	}
+	
 	@PostMapping("account")
 	public ResponseEntity<Account> createAcc(@RequestBody Account acc) {
 		if(acc.getUserId()==0) {//no value provided from front end
