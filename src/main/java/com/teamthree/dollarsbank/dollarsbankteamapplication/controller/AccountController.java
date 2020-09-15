@@ -8,22 +8,26 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teamthree.dollarsbank.dollarsbankteamapplication.model.Account;
 import com.teamthree.dollarsbank.dollarsbankteamapplication.repository.AccountRepository;
 import com.teamthree.dollarsbank.dollarsbankteamapplication.service.AccountService;
 
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/")
 public class AccountController {
@@ -51,13 +55,13 @@ public class AccountController {
 //		return this.accService.findAll();
 //	}
 	
-	@GetMapping("account")
-	public ResponseEntity<List<Account>> getAccountsofSpecificUser(@RequestBody Account acc){
+	@GetMapping("account/{userId}")
+	public ResponseEntity<List<Account>> getAccountsofSpecificUser(@Valid @PathVariable int userId){
 		ArrayList<Account>allAccounts = (ArrayList<Account>) accService.findAll();
 		ArrayList<Account>specificUserAccounts = new ArrayList<Account>();
 		boolean userHasAcc = false;
 		for(int i=0;i<allAccounts.size();i++) {
-			if(allAccounts.get(i).getUserId()==acc.getUserId()) {
+			if(allAccounts.get(i).getUserId()==userId) {
 				userHasAcc=true;
 				specificUserAccounts.add(allAccounts.get(i));
 			}

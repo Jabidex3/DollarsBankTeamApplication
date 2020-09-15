@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,7 @@ import com.teamthree.dollarsbank.dollarsbankteamapplication.model.Transaction;
 import com.teamthree.dollarsbank.dollarsbankteamapplication.model.User;
 import com.teamthree.dollarsbank.dollarsbankteamapplication.service.AccountService;
 import com.teamthree.dollarsbank.dollarsbankteamapplication.service.TransactionService;
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/")
 public class TransactionController {
@@ -52,16 +53,16 @@ public class TransactionController {
 	@Autowired
 	TransactionService transService; 
 	
-	@GetMapping("transaction")
-	public ResponseEntity<List<Transaction>> getRecentTransactions(@RequestBody Account a){
-		//System.out.println(a.getAccountId());
-		Account account = accountService.findById(a.getAccountId());
+	@GetMapping("transaction/{accountId}")
+	public ResponseEntity<List<Transaction>> getRecentTransactions(@Valid @PathVariable int accountId){
+		//System.out.println(accountId);
+		Account account = accountService.findById(accountId);
 		System.out.println(account);
-		int accNum = a.getAccountId();
+		int accNum = accountId;
 		List<Transaction> allTransactions = transService.findAll();
 		List<Transaction> specificTransactions = new ArrayList<Transaction>();
 		for(int i=0;i<allTransactions.size();i++) {
-			if(allTransactions.get(i).getFromAccountId()==a.getAccountId()) {
+			if(allTransactions.get(i).getFromAccountId()==accountId) {
 				if(allTransactions.get(i).getAction().toUpperCase().equals("WITHDRAW")||allTransactions.get(i).getAction().toUpperCase().equals("DEPOSIT")) {
 					specificTransactions.add(allTransactions.get(i));
 				}
@@ -73,7 +74,7 @@ public class TransactionController {
 				
 			}
 			
-			if(allTransactions.get(i).getToAccountId()==a.getAccountId()) {
+			if(allTransactions.get(i).getToAccountId()==accountId) {
 				if(allTransactions.get(i).getUserId()==account.getUserId()) {
 					specificTransactions.add(allTransactions.get(i));
 				}
