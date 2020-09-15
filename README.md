@@ -18,7 +18,9 @@ https://github.com/kb2shy/Team3-DollarsBank
 Note: Eclipse IDE for Java EE Developers and MySQL Workbench is used to run this project<br/>
 -Clone repository into a folder<br/>
 -Import project from folder into Eclipse IDE<br/>
--Setup a new connection in MySql workbench on port 3306<br/>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-either use root for both username and password in the setup connection interface or <br/>
+-Setup a new connection in MySql Workbench on port 3306<br/>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-Either use root for both username and password in the setup connection interface or <br/>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the username and password in the application.properties file<br/>
+-Create a database called teambankdatabase in MySql Workbench using the following command:<br/>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-create database teambankdatabase;<br/>
 -Run DollarsbankteamapplicationApplication.java as a Spring boot app or java application<br/>
